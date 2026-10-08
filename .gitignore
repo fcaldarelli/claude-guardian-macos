@@ -1,0 +1,38 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# App bundle produced by app/build-app.sh
+app/build/
+
+# Xcode (when the package is opened in Xcode)
+xcuserdata/
+DerivedData/
+*.xcuserstate
+*.xcscmblueprint
+
+# Python (app/icon/make-icon.py)
+__pycache__/
+*.pyc
+.venv/
+
+# Editors
+.idea/
+.vscode/
+*.swp
+*~
+
+# Archives and backups
+*.zip
+*.bak
+*.bak.*
+
+# Note: app/icon/AppIcon.icns and AppIcon.png are committed on purpose,
+# because build-app.sh needs them and regenerating them requires Pillow.
