@@ -60,7 +60,28 @@ It is read incrementally from the session transcript (only new lines are read). 
 
 ## Installation
 
-### 1. Hooks
+### From a release (no build needed)
+
+1. Download `ClaudeGuardian-<version>.zip` from the [Releases](https://github.com/fcaldarelli/claude-guardian-macos/releases) page and unzip it. It runs on Apple Silicon and Intel Macs with macOS 13+.
+2. Install the hooks: in Terminal, `cd` into the unzipped folder and run `./install-hooks.sh` (see [Hooks](#1-hooks) below).
+3. Move `Claude Guardian.app` to `/Applications` and open it.
+
+#### "Claude Guardian can't be opened" (Gatekeeper)
+
+The app is free and open source, so it is not signed with a paid Apple Developer ID or notarized by Apple. The first time you open it, macOS blocks it with a message like *"Apple could not verify Claude Guardian is free of malware"*. To open it anyway, use one of these:
+
+- **System Settings**: try to open the app once, then go to System Settings › Privacy & Security, scroll down to the message about Claude Guardian and click **Open Anyway**. Confirm with your password. You only need to do this once.
+- **Terminal**: remove the quarantine flag macOS adds to downloaded files:
+
+  ```bash
+  xattr -dr com.apple.quarantine "/Applications/Claude Guardian.app"
+  ```
+
+If macOS says the app *"is damaged and can't be opened"*, use the Terminal command above: that message also comes from the quarantine flag, not from a broken download. If you would rather not trust a prebuilt binary, build the app from source as described below.
+
+### From source
+
+#### 1. Hooks
 
 ```bash
 ./install-hooks.sh
@@ -70,7 +91,7 @@ This copies the hook to `~/.claude/hooks/` and registers it in `~/.claude/settin
 
 Restart any Claude Code sessions that are already open so they pick up the hooks.
 
-### 2. App
+#### 2. App
 
 Requires macOS 13+ with Xcode or the Command Line Tools (`xcode-select --install`).
 
@@ -92,7 +113,7 @@ static let version = "1.0.0"
 static let build = "1"
 ```
 
-To release a new version, change these values and run `build-app.sh`. The menu shows the version from this file, and the build script reads the same values to write them into `Info.plist`, so Finder's "Get Info" always matches.
+To release a new version, change these values and run `build-app.sh --release`. It builds a universal binary (Apple Silicon and Intel) and creates `app/build/ClaudeGuardian-<version>.zip` with the app, the hooks, `install-hooks.sh` and the license, ready to attach to a GitHub release; it also prints the zip's SHA-256 for the release notes. The menu shows the version from this file, and the build script reads the same values to write them into `Info.plist`, so Finder's "Get Info" always matches.
 
 ### Icon
 
@@ -149,3 +170,7 @@ rm -rf "/Applications/Claude Guardian.app" ~/.claude/activity ~/.claude/hooks/cl
 ```
 
 Then remove the entries containing `claude-activity-hook` from `~/.claude/settings.json` (or restore the backup).
+
+## License
+
+[MIT](LICENSE)
